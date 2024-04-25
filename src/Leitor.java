@@ -25,7 +25,6 @@ public class Leitor {
                 compras.add(new Compra(idPedido, valorPedido, anoPedido));
             }
         } catch (IOException e) {
-            System.err.println("Erro ao abrir o arquivo: " + arquivo);
             e.printStackTrace();
         }
 

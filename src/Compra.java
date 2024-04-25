@@ -12,4 +12,16 @@ public class Compra {
         System.out.println("Pedido: " + pedido + ", Valor: R$ " + valor + ", Ano: " + ano);
     }
 
+    public int getAno(){
+        return this.ano;
+    }
+
+    public double getValor(){
+        return this.valor;
+    }
+
+    public int getPedido(){
+        return this.pedido;
+    }
+
 }
