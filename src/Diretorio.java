@@ -17,7 +17,7 @@ public class Diretorio {
         }
     }
 
-    public Pair<Integer, Boolean> inserirRegistro(Compra compra) {
+    public Pair<Integer, Integer> inserirRegistro(Compra compra) {
         int indice = FuncHash.calcularHash(compra.getAno(), this.profundidadeGlobal);
         Bucket bucket = this.buckets.get(indice);
         boolean duplicouDiretorio = false;
@@ -79,7 +79,8 @@ public class Diretorio {
         bucket.carregar();
         int contagemInicial = bucket.getRegistros().size();
 
-        bucket.setRegistros(bucket.getRegistros().stream()
+        bucket.setRegistros(bucket.getRegistros()
+            .stream()
             .filter(compra -> compra.getAno() != ano)
             .collect(Collectors.toList()));
 
@@ -97,7 +98,8 @@ public class Diretorio {
 
         bucket.carregar(); 
         
-        int quantidadeEncontrada = (int) bucket.getRegistros().stream()
+        int quantidadeEncontrada = (int) bucket.getRegistros()
+            .stream()
             .filter(compra -> compra.getAno() == ano)
             .count();
 
@@ -109,5 +111,9 @@ public class Diretorio {
         for (Bucket bucket : this.buckets) {
             bucket.imprimir();
         }
+    }
+
+    public int getProfundidadeGlobal(){
+        return this.profundidadeGlobal;
     }
 }
