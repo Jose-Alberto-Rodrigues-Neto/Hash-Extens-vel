@@ -11,8 +11,9 @@ public class Leitor {
         this.arquivo = caminhoArquivo;
     }
 
+    List<Compra> compras = new ArrayList<>();
+
     public List<Compra> lerCompras() {
-        List<Compra> compras = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha;
 
@@ -30,5 +31,12 @@ public class Leitor {
 
         return compras;
     }
+
+    public void printarCompras(){
+        for(Compra compra: compras){
+            compra.exibir();
+        }
+    }
+
 }
 
