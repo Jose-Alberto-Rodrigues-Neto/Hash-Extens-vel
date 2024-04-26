@@ -4,7 +4,7 @@ import java.util.List;
 class HashExtensivel<K, V> {
     private int size;
     private List<List<Entry<K, V>>> table;
-    private int depth;
+    private int profundidadeGlobal;
 
     public HashExtensivel(int initialSize) {
         this.size = initialSize;
@@ -12,7 +12,7 @@ class HashExtensivel<K, V> {
         for (int i = 0; i < size; i++) {
             table.add(null);
         }
-        this.depth = 0;
+        this.profundidadeGlobal = 0;
     }
 
     private int hashFunction(K key) {
@@ -55,7 +55,7 @@ class HashExtensivel<K, V> {
     }
 
     public int getProfundidadeGlobal() {
-        return depth;
+        return profundidadeGlobal;
     }
 
     public int getProfundidadeLocal(K key) {
@@ -82,7 +82,7 @@ class HashExtensivel<K, V> {
             }
         }
         table = newTable;
-        depth++;
+        profundidadeGlobal++;
     }
 
     private static class Entry<K, V> {
