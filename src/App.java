@@ -9,6 +9,7 @@ public class App {
     private static final String COMPRAS_CSV = "public/compras.csv";
     private static final String INPUT_FILE = "public/in.txt";
     private static final String OUTPUT_FILE = "public/out.txt";
+
     public static void main(String[] args) throws Exception {
         Leitor leitorCompras = new Leitor(COMPRAS_CSV);
         List<Compra> compras = leitorCompras.lerCompras();
@@ -20,13 +21,13 @@ public class App {
             int profundidadeInicial = Integer.parseInt(linha.substring(3));
             arquivoSaida.println(linha);
 
-            Diretorio diretorio = new Diretorio(profundidadeInicial);
+            HashExtensivel<Integer, Compra> hashTable = new HashExtensivel<>(profundidadeInicial);
 
             while ((linha = arquivoInstrucoes.readLine()) != null) {
-                processarLinha(linha, compras, diretorio, arquivoSaida);
+                processarLinha(linha, compras, hashTable, arquivoSaida);
             }
 
-            arquivoSaida.printf("P:/%d%n", diretorio.getProfundidadeGlobal());
+            arquivoSaida.printf("P:/%d%n", hashTable.getProfundidadeGlobal());
 
         } catch (IOException e) {
             System.err.println("Erro ao abrir um dos arquivos!");
@@ -34,7 +35,7 @@ public class App {
         }
     }
 
-    private static void processarLinha(String linha, List<Compra> compras, Diretorio diretorio, PrintWriter arquivoSaida) {
+    private static void processarLinha(String linha, List<Compra> compras, HashExtensivel<Integer, Compra> hashTable, PrintWriter arquivoSaida) {
         int ano;
         String operacao = linha.substring(0, 3);
 
@@ -42,12 +43,12 @@ public class App {
             ano = Integer.parseInt(linha.substring(4));
             for (Compra compra : compras) {
                 if (compra.getAno() == ano) {
-                    Par<Integer, Integer> resultadoInsercao = diretorio.inserirRegistro(compra);
+                    hashTable.inserir(ano, compra);
 
-                    arquivoSaida.printf("INC:%d/%d,%d%n", ano, diretorio.getProfundidadeGlobal(), resultadoInsercao.first);
+                    arquivoSaida.printf("INC:%d/%d,%d%n", ano, hashTable.getProfundidadeGlobal(), hashTable.getProfundidadeLocal(ano));
 
-                    if (resultadoInsercao.second == 1) {
-                        arquivoSaida.printf("DUP_DIR:/%d,%d%n", diretorio.getProfundidadeGlobal(), resultadoInsercao.first);
+                    if (hashTable.getProfundidadeLocal(ano) > 1) {
+                        arquivoSaida.printf("DUP_DIR:/%d,%d%n", hashTable.getProfundidadeGlobal(), hashTable.getProfundidadeLocal(ano));
                     }
 
                     break;
@@ -56,12 +57,12 @@ public class App {
         } else if (operacao.equals("REM")) {
             ano = Integer.parseInt(linha.substring(4));
 
-            Par<Integer, Integer> resultadoRemocao = diretorio.removerRegistros(ano);
+            int removedCount = hashTable.remover(ano);
 
-            arquivoSaida.printf("REM:%d/%d,%d,%d%n", ano, resultadoRemocao.first, diretorio.getProfundidadeGlobal(), resultadoRemocao.second);
+            arquivoSaida.printf("REM:%d/%d,%d,%d%n", ano, removedCount, hashTable.getProfundidadeGlobal(), hashTable.getProfundidadeLocal(ano));
         } else if (operacao.equals("BUS")) {
             ano = Integer.parseInt(linha.substring(5));
-            int quantidadeDeTuplas = diretorio.buscarPorAno(ano);
+            int quantidadeDeTuplas = hashTable.getProfundidadeLocal(ano);
             arquivoSaida.printf("BUS:%d/%d%n", ano, quantidadeDeTuplas);
         }
     }

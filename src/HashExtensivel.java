@@ -27,6 +27,20 @@ class HashExtensivel<K, V> {
         table.get(index).add(new Entry<>(key, value));
     }
 
+    public int remover(K key) {
+        int index = hashFunction(key);
+        List<Entry<K, V>> bucket = table.get(index);
+        if (bucket != null) {
+            for (Entry<K, V> entry : bucket) {
+                if (entry.getKey().equals(key)) {
+                    bucket.remove(entry);
+                    return index;
+                }
+            }
+        }
+        return index;
+    }
+
     public V verificar(K key) {
         int index = hashFunction(key);
         List<Entry<K, V>> bucket = table.get(index);
@@ -50,7 +64,7 @@ class HashExtensivel<K, V> {
         return bucket != null ? bucket.size() : 0;
     }
 
-    public void doubleSize() {
+    public void duplicar() {
         size *= 2;
         List<List<Entry<K, V>>> newTable = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
