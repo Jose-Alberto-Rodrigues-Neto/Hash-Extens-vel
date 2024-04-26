@@ -1,30 +1,30 @@
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.io.FileWriter;
+import java.io.File;
+import java.util.List;
+import java.io.IOException;
 
 public class Bucket {
     
     public List<Compra> registros;
-    public String fileName;
+    public String nomeArquivo;
     public int profundidadeLocal;
     public int maximoRegistros;
 
-    Bucket(String fileName, int profundidadeLocal, int maximoRegistros) {
-        this.fileName = fileName;
+    Bucket(String nomeArquivo, int profundidadeLocal, int maximoRegistros) {
+        this.nomeArquivo = nomeArquivo;
         this.profundidadeLocal = profundidadeLocal;
         this.maximoRegistros = maximoRegistros;
 
-        // criar arquivo com nome fileName
+        // criar arquivo com nome nomeArquivo
         try {
 
-            File arquivo = new File(fileName);
+            File arquivo = new File(nomeArquivo);
 
             if ( arquivo.createNewFile() ) {
-                System.out.println("Arquivo criado com sucesso: " + fileName);
+                System.out.println("bucket " + nomeArquivo + " criado com sucesso!!!");
             } else {
-                System.out.println("Arquivo " + fileName + " já existe.");
+                System.out.println("bucket " + nomeArquivo + " já existe!!!");
             }
 
         } catch (IOException e) {
@@ -32,8 +32,8 @@ public class Bucket {
         }
     }
 
-    Bucket(String fileName, List<Compra> registros, int profundidadeLocal, int maximoRegistros) {
-        this.fileName = fileName;
+    Bucket(String nomeArquivo, List<Compra> registros, int profundidadeLocal, int maximoRegistros) {
+        this.nomeArquivo = nomeArquivo;
         this.profundidadeLocal = profundidadeLocal;
         this.maximoRegistros = maximoRegistros;
 
@@ -65,20 +65,20 @@ public class Bucket {
 
     Boolean cheio() {
         if ( this.registros.size() >= this.maximoRegistros ) {
-            System.out.println("Número máximo de registros atingido: " + this.maximoRegistros);
+            // System.out.println("Número máximo de registros atingido: " + this.maximoRegistros);
             return true;
         }
         return false;
     }
 
     void carregar() {
-        Leitor leitor = new Leitor(this.fileName);
+        Leitor leitor = new Leitor(this.nomeArquivo);
         this.registros = leitor.lerCompras();
     }
 
     void salvar() throws IOException {
-        // criar arquivo com nome fileName
-        File arquivo = new File(this.fileName);
+        // criar arquivo com nome nomeArquivo
+        File arquivo = new File(this.nomeArquivo);
         BufferedWriter arquivoEscrita = new BufferedWriter(new FileWriter(arquivo));
         for ( Compra compra : this.registros ) {
             // escrever no arquivo <pedido, valor, ano>
