@@ -12,7 +12,7 @@ class HashExtensivel<K, V> {
         for (int i = 0; i < size; i++) {
             table.add(null);
         }
-        this.profundidadeGlobal = 0;
+        this.profundidadeGlobal = 2;
     }
 
     private int hashFunction(K key) {
