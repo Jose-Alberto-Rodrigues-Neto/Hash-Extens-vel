@@ -17,7 +17,7 @@ public class Diretorio {
         }
     }
 
-    public Pair<Integer, Integer> inserirRegistro(Compra compra) {
+    public Par<Integer, Integer> inserirRegistro(Compra compra) {
         int indice = FuncHash.calcularHash(compra.getAno(), this.profundidadeGlobal);
         Bucket bucket = this.buckets.get(indice);
         boolean duplicouDiretorio = false;
@@ -37,7 +37,7 @@ public class Diretorio {
             bucket = this.buckets.get(indice);
         }
         bucket.salvar();
-        return new Pair<>(bucket.getProfundidadeLocal(), duplicouDiretorio);
+        return new Par<>(bucket.getProfundidadeLocal(), duplicouDiretorio);
     }
     
 
@@ -72,7 +72,7 @@ public class Diretorio {
         novoBucket.salvar();
     }
 
-    public Pair<Integer, Integer> removerRegistros(int ano) {
+    public Par<Integer, Integer> removerRegistros(int ano) {
         int indice = FuncHash.calcularHash(ano, profundidadeGlobal);
         Bucket bucket = buckets.get(indice);
 
@@ -89,7 +89,7 @@ public class Diretorio {
 
         bucket.salvar();
 
-        return new Pair<>(tuplasRemovidas, bucket.getProfundidadeLocal());
+        return new Par<>(tuplasRemovidas, bucket.getProfundidadeLocal());
     }
 
     public int buscarPorAno(int ano) {

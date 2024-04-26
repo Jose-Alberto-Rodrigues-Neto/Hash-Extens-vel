@@ -42,7 +42,7 @@ public class App {
             ano = Integer.parseInt(linha.substring(4));
             for (Compra compra : compras) {
                 if (compra.getAno() == ano) {
-                    Pair<Integer, Integer> resultadoInsercao = diretorio.inserirRegistro(compra);
+                    Par<Integer, Integer> resultadoInsercao = diretorio.inserirRegistro(compra);
 
                     arquivoSaida.printf("INC:%d/%d,%d%n", ano, diretorio.getProfundidadeGlobal(), resultadoInsercao.first);
 
@@ -56,7 +56,7 @@ public class App {
         } else if (operacao.equals("REM")) {
             ano = Integer.parseInt(linha.substring(4));
 
-            Pair<Integer, Integer> resultadoRemocao = diretorio.removerRegistros(ano);
+            Par<Integer, Integer> resultadoRemocao = diretorio.removerRegistros(ano);
 
             arquivoSaida.printf("REM:%d/%d,%d,%d%n", ano, resultadoRemocao.first, diretorio.getProfundidadeGlobal(), resultadoRemocao.second);
         } else if (operacao.equals("BUS")) {
